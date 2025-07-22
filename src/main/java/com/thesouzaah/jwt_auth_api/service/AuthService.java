@@ -10,28 +10,26 @@ import org.springframework.stereotype.Service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
-
 @Service
 @AllArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;;
     private final JwtService jwtService;
 
     public TokenDTO login(AuthRequest request) {
-        var user = userRepository
+        var user = repository
                 .findByUsername(request.username())
                 .orElseThrow(() -> new ValidationException("User not found!"));
-
-        var accessToken = jwtService.createToken(user);
         validatePassword(request.password(), user.getPassword());
+        var accessToken = jwtService.createToken(user);
         return new TokenDTO(accessToken);
     }
 
     private void validatePassword(String rawPassword, String encodedPassword) {
         if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
-            throw new ValidationException("The password is incorrect");
+            throw new ValidationException("The password is incorrect!");
         }
     }
 
@@ -47,3 +45,4 @@ public class AuthService {
         }
     }
 }
+
