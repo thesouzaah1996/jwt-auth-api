@@ -1,4 +1,22 @@
+server:
+  port: 8080
 
 app:
   token:
-    secret-key: ${JWT_SECRET_KEY=YmFzZTY0U2VjcmV0S2V5}
+    secret-key: YXV0ZW50aWNhY2FvLWNvbS1qd3QtZW0tbWljcm9zc2Vydmljb3MKCg==
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5438}/${DB_NAME:auth_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:123456}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      format_sql: true
+    show_sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
